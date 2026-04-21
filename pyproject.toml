@@ -17,5 +17,5 @@ dependencies = [
 rpi = [
   "spidev>=3.6",
   "gpiozero>=2.0",
-  "lgpio>=0.2.2.0",
+  "rpi-lgpio>=0.6",
 ]
