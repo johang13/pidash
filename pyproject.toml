@@ -15,7 +15,6 @@ dependencies = [
 
 [project.optional-dependencies]
 rpi = [
-  "rpi-lgpio>=0.6",
   "spidev>=3.6",
   "gpiozero>=2.0",
 ]
