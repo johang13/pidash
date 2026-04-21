@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pidash"
+version = "0.1.0"
+description = "Pi dashboard app with Waveshare e-Paper support"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "Pillow>=10.0.0",
+  "numpy>=2.4.4"
+]
+
+[project.optional-dependencies]
+rpi = [
+  "RPi.GPIO>=0.7.1",
+  "spidev>=3.6",
+]
+
