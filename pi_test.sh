@@ -19,4 +19,3 @@ fi
 
 source .venv/bin/activate
 python "$EXAMPLE_SCRIPT"
-

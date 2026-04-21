@@ -19,7 +19,6 @@ sudo apt-get install -y \
   python3-gpiozero \
   python3-spidev \
   python3-rpi-lgpio \
-  liblgpio-dev
 
 # If this repo uses submodules (you do for Waveshare), ensure they are present
 git submodule update --init --recursive
