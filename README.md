@@ -23,20 +23,20 @@ sudo raspi-config
 
 Then reboot.
 
-The `pi_run.sh` script is a convenience for installing and running on the Pi:
+Use separate setup and run scripts on the Pi:
 
 ```bash
-chmod +x pi_run.sh
+chmod +x pi_setup.sh pi_run.sh pi_test.sh
+./pi_setup.sh
 ./pi_run.sh
 ```
 
-`pi_run.sh` installs system prerequisites, initializes submodules, creates `.venv`, installs `.[rpi]`, and runs `main.py`.
+`pi_setup.sh` installs system prerequisites, initializes submodules, creates `.venv`, and installs `.[rpi]`.
+`pi_run.sh` activates `.venv` and runs `main.py`.
+`pi_test.sh` activates `.venv` and runs Waveshare's `epd_7in5_V2_test.py` example.
 
 ## Notes
 
 - The Waveshare repo is expected at `third_party/e-Paper`.
 - For your panel, use `waveshare_epd.epd7in5_V2` in hardware mode.
 - Raspberry Pi extras come from `pyproject.toml` via `.[rpi]`.
-
-
-
