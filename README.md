@@ -31,7 +31,7 @@ chmod +x pi_setup.sh pi_run.sh pi_test.sh
 ./pi_run.sh
 ```
 
-`pi_setup.sh` installs system prerequisites, initializes submodules, creates `.venv`, and installs `.[rpi]`.
+`pi_setup.sh` installs system prerequisites including GPIO/SPI packages (`python3-gpiozero`, `python3-spidev`, `python3-rpi-lgpio`), initializes submodules, creates `.venv` with system site packages, and installs the project.
 `pi_run.sh` activates `.venv` and runs `main.py`.
 `pi_test.sh` activates `.venv` and runs Waveshare's `epd_7in5_V2_test.py` example.
 
@@ -39,4 +39,4 @@ chmod +x pi_setup.sh pi_run.sh pi_test.sh
 
 - The Waveshare repo is expected at `third_party/e-Paper`.
 - For your panel, use `waveshare_epd.epd7in5_V2` in hardware mode.
-- Raspberry Pi extras come from `pyproject.toml` via `.[rpi]`.
+- Raspberry Pi extras in `pyproject.toml` are optional; `pi_setup.sh` uses apt for GPIO/SPI packages.

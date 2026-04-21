@@ -12,12 +12,21 @@ if [[ ! -c /dev/spidev0.0 && ! -c /dev/spidev0.1 ]]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y python3 python3-pip python3-venv
+sudo apt-get install -y \
+  python3 \
+  python3-pip \
+  python3-venv \
+  python3-gpiozero \
+  python3-spidev \
+  python3-rpi-lgpio \
+  liblgpio-dev
 
 # If this repo uses submodules (you do for Waveshare), ensure they are present
 git submodule update --init --recursive
 
-python3 -m venv .venv
+# Reuse apt-provided GPIO/SPI libs from inside the venv.
+python3 -m venv --system-site-packages .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install ".[rpi]"
+python -m pip install .
+
