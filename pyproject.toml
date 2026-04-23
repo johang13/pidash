@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "johang13", email = "chris.grobler@outlook.co.nz" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "numpy>=2.4.4",
     "openmeteo-requests>=1.7.5",
