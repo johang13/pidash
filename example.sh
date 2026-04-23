@@ -6,7 +6,7 @@ cd "$SCRIPT_DIR"
 
 if [[ ! -f .venv/bin/python ]]; then
   echo "Missing virtual environment at .venv." >&2
-  echo "Run ./pi_setup.sh first, then rerun ./pi_test.sh." >&2
+  echo "Run ./setup.sh first, then rerun ./example.sh." >&2
   exit 1
 fi
 

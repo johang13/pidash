@@ -1,21 +1,30 @@
-[build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "pidash"
 version = "0.1.0"
-description = "Pi dashboard app with Waveshare e-Paper support"
+description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+authors = [
+    { name = "johang13", email = "chris.grobler@outlook.co.nz" }
+]
+requires-python = ">=3.13"
 dependencies = [
-  "Pillow>=10.0.0",
-  "numpy>=2.4.4"
+    "numpy>=2.4.4",
+    "openmeteo-requests>=1.7.5",
+    "pandas>=3.0.2",
+    "pillow>=12.2.0",
+    "requests>=2.33.1",
+    "requests-cache>=1.3.1",
+    "retry-requests>=2.0.0",
 ]
 
-[project.optional-dependencies]
-rpi = [
-  "spidev>=3.6",
-  "gpiozero>=2.0",
-  "rpi-lgpio>=0.6",
+[project.scripts]
+pidash = "pidash:main"
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pylint>=4.0.5",
 ]

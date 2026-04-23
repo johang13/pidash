@@ -18,14 +18,11 @@ sudo apt-get install -y \
   python3-venv \
   python3-gpiozero \
   python3-spidev \
-  python3-rpi-lgpio \
+  python3-rpi-lgpio
 
-# If this repo uses submodules (you do for Waveshare), ensure they are present
 git submodule update --init --recursive
 
-# Reuse apt-provided GPIO/SPI libs from inside the venv.
 python3 -m venv --system-site-packages .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install .
-
+python -m pip install -e .
