@@ -6,7 +6,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE_ROOT = Path(__file__).resolve().parent
-THIRD_PARTY_DIR = PACKAGE_ROOT / "third_party"
+THIRD_PARTY_DIR = PROJECT_ROOT / "third_party"
 FONTS_DIR = PACKAGE_ROOT / "assets" / "fonts"
 WAVESHARE_LIB_DIR = (
     THIRD_PARTY_DIR / "e-Paper" / "RaspberryPi_JetsonNano" / "python" / "lib"
