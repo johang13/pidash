@@ -18,6 +18,7 @@ class LocationSettings:
     latitude: float = -36.7737262
     longitude: float = 174.7551167
     timezone: str = "Pacific/Auckland"
+    suburb: str = ""
 
 
 @dataclass(frozen=True)
@@ -25,11 +26,13 @@ class AppSettings:
     """Application settings"""
     emulate: bool
     test_wifi: bool = False
+    suburb: str = ""
     location: LocationSettings = LocationSettings()
     current_conditions_interval: int = 900
     full_refresh_interval: int = 3600
     loop_sleep_seconds: int = 10
     weather_cache_seconds: int = 60
+    hourly_forecast_hours: int = 9
 
     @property
     def latitude(self) -> float:
@@ -45,6 +48,13 @@ class AppSettings:
     def timezone(self) -> str:
         """Timezone"""
         return self.location.timezone
+
+    @property
+    def display_suburb(self) -> str:
+        """Suburb label to use for display."""
+        if self.suburb.strip():
+            return self.suburb
+        return self.location.suburb
 
     @property
     def open_sans_dir(self) -> Path:
