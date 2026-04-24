@@ -1,5 +1,7 @@
 # pidash
 
+[![Pylint](https://github.com/johang13/pidash/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/johang13/pidash/actions/workflows/pylint.yml?query=branch%3Amain)
+
 ## Introduction
 
 A simple dashboard built with Python, using a Raspberry Pi Zero 2W and Waveshare 7.5inch E-Ink display. 
