@@ -10,9 +10,10 @@ from typing import Protocol
 from PIL import Image, ImageDraw, ImageFont
 
 from .assets import weather_code_to_description, weather_code_to_icon
+from .location import LocationLabel, format_location_label
 from .settings import AppSettings
 from .system import get_wifi_ssid
-from .weather import DashboardWeather, LocationLabel, OpenMeteoClient
+from .weather import DashboardWeather, OpenMeteoClient
 
 logger = logging.getLogger(__name__)
 
@@ -136,34 +137,27 @@ class Dashboard:  # pylint: disable=too-many-instance-attributes
             logger.warning("Weather update failed: %s", exc)
             return None
 
-    @staticmethod
-    def _tz_to_location_label(tz_name: str, suburb: str = "", city: str = "") -> str:
-        """Convert timezone text into a readable location label."""
-        resolved_city = city.strip() or tz_name.split("/")[-1].replace("_", " ")
-        suburb = suburb.strip()
-        if suburb:
-            return f"{suburb}, {resolved_city}"
-        return resolved_city
-
     def _location_label(self) -> str:
         """Return display location text using manual settings or reverse geocoding."""
         if self.settings.display_suburb.strip():
-            return self._tz_to_location_label(
+            return format_location_label(
                 self.settings.timezone,
                 self.settings.display_suburb,
+                city=self.settings.timezone.split("/")[-1].replace("_", " "),
             )
 
         if self._location_label_cache is None:
             self._location_label_cache = self.weather_client.request_location_label()
 
         if self._location_label_cache is not None:
-            return self._tz_to_location_label(
+            return format_location_label(
                 self.settings.timezone,
                 self._location_label_cache.suburb,
+                self._location_label_cache.state,
                 self._location_label_cache.city,
             )
 
-        return self._tz_to_location_label(self.settings.timezone)
+        return format_location_label(self.settings.timezone)
 
     def _draw_metric(self, x: int, y: int, label: str, value: str):
         """Draw a compact key/value metric block in the right-side column."""

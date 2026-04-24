@@ -15,8 +15,8 @@ WAVESHARE_LIB_DIR = (
 @dataclass(frozen=True)
 class LocationSettings:
     """Geographic and timezone settings"""
-    latitude: float = -36.7737262
-    longitude: float = 174.7551167
+    latitude: float = -36.7724098
+    longitude: float = 174.7637373
     timezone: str = "Pacific/Auckland"
     suburb: str = ""
 

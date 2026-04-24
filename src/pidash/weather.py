@@ -13,6 +13,7 @@ import openmeteo_requests
 import requests_cache
 from requests import Session
 from retry_requests import retry
+from .location import LocationLabel, NominatimLocationResolver
 from .settings import AppSettings, LocationSettings, PROJECT_ROOT
 
 logger = logging.getLogger(__name__)
@@ -92,14 +93,6 @@ class DashboardWeather:
             *hourly_fingerprint,
             *daily_fingerprint,
         )
-
-
-@dataclass(frozen=True)
-class LocationLabel:
-    """Human-readable location resolved from coordinates."""
-    city: str
-    suburb: str = ""
-
 class OpenMeteoClient:
     """Open-Meteo client."""
     def __init__(
@@ -121,6 +114,12 @@ class OpenMeteoClient:
                                             retries=1,
                                             backoff_factor=0.2))
         self._session = retry_session
+        self._location_resolver = NominatimLocationResolver(
+            session=retry_session,
+            latitude=self.latitude,
+            longitude=self.longitude,
+            timezone_name=self.timezone_name,
+        )
         self._client = openmeteo_requests.Client(session=retry_session)
 
     @classmethod
@@ -246,45 +245,7 @@ class OpenMeteoClient:
 
     def request_location_label(self) -> LocationLabel | None:
         """Reverse geocode coordinates into suburb and city."""
-        try:
-            response = self._session.get(
-                "https://geocoding-api.open-meteo.com/v1/reverse",
-                params={
-                    "latitude": self.latitude,
-                    "longitude": self.longitude,
-                    "language": "en",
-                    "count": 1,
-                    "format": "json",
-                },
-                timeout=3,
-            )
-            response.raise_for_status()
-            payload = cast(dict[str, Any], response.json())
-            results = cast(list[dict[str, Any]], payload.get("results", []))
-            if not results:
-                return None
-
-            result = results[0]
-            city = str(
-                result.get("city")
-                or result.get("name")
-                or ""
-            ).strip()
-            suburb = str(
-                result.get("admin4")
-                or result.get("admin3")
-                or ""
-            ).strip()
-
-            if not city:
-                return None
-            if suburb.lower() == city.lower():
-                suburb = ""
-
-            return LocationLabel(city=city, suburb=suburb)
-        except Exception as exc:  # pylint: disable=broad-exception-caught
-            logger.debug("Location reverse geocoding failed: %s", exc)
-            return None
+        return self._location_resolver.request_location_label()
 
 @lru_cache(maxsize=1)
 def default_weather_client() -> OpenMeteoClient:
